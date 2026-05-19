@@ -20,7 +20,7 @@ Pick **one** machine to host the database. Every client workstation on the netwo
 
 ### 1.1 Run the one-click installer
 
-1. On the chosen server machine, download **`MSLI-Server-Setup.exe`** from the latest release: <https://github.com/ryanclaret/MSLI-Releases/releases/latest>.
+1. On the chosen server machine, download **`MSLI-Server-Setup.exe`**: <https://github.com/ryanclaret/MSLI-Releases/releases/latest/download/MSLI-Server-Setup.exe>.
 2. Double-click `MSLI-Server-Setup.exe`. Walk through the wizard:
    - **Welcome** → Next.
    - **MariaDB root password** — choose a strong one and **write it down**.
@@ -52,7 +52,7 @@ The installer has handled all of the following for you: installed MariaDB and st
 
 ### 2.1 Install
 
-1. On the workstation, download **`MSLI-Setup.exe`** from <https://github.com/ryanclaret/MSLI-Releases/releases/latest>.
+1. On the workstation, download **`MSLI-Setup.exe`**: <https://github.com/ryanclaret/MSLI-Releases/releases/latest/download/MSLI-Setup.exe>.
 2. Double-click `MSLI-Setup.exe`. It installs to `%LocalAppData%\MSLI\` — **no admin rights required**.
 3. The app launches automatically when install finishes.
 
