@@ -32,7 +32,31 @@ The installer has handled all of the following for you: installed MariaDB and st
 
 > Need a non-Windows server or a custom MariaDB / MySQL install instead? Contact your MSLI vendor / development team for the manual setup instructions — they're not published here.
 
-### 1.2 Reserve the server's IP in your router (DHCP reservation)
+### 1.2 Reinstalling the server (clean slate)
+
+Only do this if the server is in a broken state and you need to start fresh. **This wipes all MSLI data on the server.** Make sure all workstations are signed out of MSLI first.
+
+1. **Uninstall MSLI Server.** *Settings → Apps → Installed apps* (or *Control Panel → Programs and Features*) → find **MSLI Server** → Uninstall.
+2. **Uninstall MariaDB.** Same list → find **MariaDB 11.x (x64)** → Uninstall.
+3. **Open PowerShell as Administrator** and run the following — copy/paste as a block:
+   ```powershell
+   Stop-Service MariaDB -ErrorAction SilentlyContinue
+   sc.exe delete MariaDB
+   Remove-Item 'C:\Program Files\MariaDB 11.4' -Recurse -Force -ErrorAction SilentlyContinue
+   Remove-Item 'C:\Program Files\MSLI Server' -Recurse -Force -ErrorAction SilentlyContinue
+   ```
+   *(Some lines may say "service does not exist" or "path not found" — that's fine, it just means there was nothing to remove.)*
+4. **Verify everything is clean** — all three should return nothing / `False`:
+   ```powershell
+   Get-NetTCPConnection -LocalPort 3306 -ErrorAction SilentlyContinue
+   Get-Service | Where-Object Name -match 'MySQL|MariaDB'
+   Test-Path 'C:\Program Files\MariaDB 11.4'
+   ```
+5. **Reboot the server.** Windows holds file locks on some MariaDB files even after the service is gone — the reboot releases them. Skipping this step is the most common reason a re-install partially fails.
+6. **Run `MSLI-Server-Setup.exe` again** (download the latest from the link above). Same wizard flow as section 1.1.
+7. **Update workstation Connection Settings** if the server's IP changed. Each workstation: *Setup → Connection → enter the new IP → Test Connection → Save*.
+
+### 1.3 Reserve the server's IP in your router (DHCP reservation)
 
 **Don't skip this step.** By default the router can hand the server a different IP after a reboot or power outage, which silently breaks every client.
 
@@ -92,5 +116,6 @@ You will **not** be asked to run `ALTER TABLE` statements or migration scripts w
 | **Forgot the starter admin password** | Contact your MSLI vendor / development team for the recovery procedure. |
 | **Got logged out unexpectedly** | Someone else signed in with the same account. MSLI enforces one active session per account — the newer login wins. Use distinct accounts per person. |
 | **App doesn't auto-update** | Check `error.log` in `%LocalAppData%\MSLI\app-<version>\` for Squirrel exceptions. The public `MSLI-Releases` repo must be reachable from the workstation over HTTPS — corporate proxies that block GitHub will prevent updates. |
-| **The server's IP changed after a reboot** | DHCP reservation isn't set. Go back to step 1.2 and pin the IP to the server's MAC. Until then, every client's Connection Settings must be re-pointed at the new IP. |
+| **The server's IP changed after a reboot** | DHCP reservation isn't set. Go back to step 1.3 and pin the IP to the server's MAC. Until then, every client's Connection Settings must be re-pointed at the new IP. |
+| **Server in a broken state, want to start over** | Follow section 1.2 "Reinstalling the server (clean slate)". Wipes all MSLI data and rebuilds from scratch. |
 | **A new release says "manual data adjustment required"** | Read the GitHub release notes on `MSLI-Releases`. Typical adjustments: assigning a new role to existing users, or filling in a new template slot. Use the in-app admin screens (User → Manage Role / User → Manage User / Forms → Template). |
