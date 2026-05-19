@@ -23,7 +23,6 @@ Pick **one** machine to host the database. Every client workstation on the netwo
 1. On the chosen server machine, download **`MSLI-Server-Setup.exe`**: <https://github.com/ryanclaret/MSLI-Releases/releases/latest/download/MSLI-Server-Setup.exe>.
 2. Double-click `MSLI-Server-Setup.exe`. Walk through the wizard:
    - **Welcome** → Next.
-   - **MariaDB root password** — choose a strong one and **write it down**.
    - **Install location** → Install.
 3. Wait ~3–5 minutes for MariaDB to download, install, and bootstrap the database.
 4. On the final screen, leave **"Show this server's IP address"** ticked → Finish.
