@@ -1,6 +1,6 @@
 # MSLI Integrated Management System
 
-An **inventory management system** built for Montenegro Shipping Lines Inc. (MSLI) — a shipping enterprise operating a fleet of roughly **77 vessels** — to track and manage inventory across the operation from a single database-backed application.
+An **inventory management system** built for Montenegro Shipping Lines Inc. (MSLI) — a shipping enterprise operating a fleet of 90 vessels — to track and manage inventory across the operation from a single database-backed application.
 
 **Tech stack:** VB.NET · MySQL
 
